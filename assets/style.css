@@ -56,3 +56,40 @@ button{
 .hidden{display:none;}
 img{max-width:100%;border-radius:16px;margin-top:10px;}
 #msg{margin-top:10px;font-weight:bold;}
+
+/* INTRO */
+.intro{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#f8f3ea,#efe6da);
+  padding:20px;
+}
+
+.intro-box{
+  max-width:680px;
+  text-align:center;
+  background:white;
+  padding:48px 28px;
+  border-radius:28px;
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+}
+
+.intro-eyebrow{
+  font-size:12px;
+  letter-spacing:.2em;
+  color:#8b6f52;
+  margin-bottom:14px;
+}
+
+.intro h1{
+  font-size:30px;
+  margin:0 0 18px;
+}
+
+.intro-text{
+  line-height:1.8;
+  color:#5f5348;
+  margin-bottom:28px;
+}
