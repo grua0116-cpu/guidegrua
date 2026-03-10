@@ -1,64 +1,77 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>GRUA 캠퍼스 투어 가이드팀 모집</title>
-<link rel="stylesheet" href="./assets/style.css" />
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import {
-  getFirestore, doc, setDoc, getDoc,
-  collection, onSnapshot, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "여기입력",
-  authDomain: "여기입력",
-  projectId: "여기입력",
-  storageBucket: "여기입력",
-  messagingSenderId: "여기입력",
-  appId: "여기입력"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-window.db = db;
-window.fns = { doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp };
-</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRUA 캠퍼스 투어 가이드팀 모집</title>
+  <link rel="stylesheet" href="./assets/style.css" />
 </head>
-
 <body>
-<div class="wrap">
-  <h1>캠퍼스 투어 가이드팀 모집</h1>
-  <p>타입을 입력하고 연결된 건물을 찾아주세요.<br>16명이 모두 모이면 가이드팀이 완성됩니다.</p>
 
-  <div class="card">
-    <input id="nick" placeholder="닉네임" />
-    <input id="type" placeholder="타입코드 (예: IFAP)" maxlength="4"/>
-    <button id="confirm">타입 확인</button>
-    <div id="msg"></div>
+  <!-- ✅ INTRO PAGE -->
+  <section id="introPage" class="intro">
+    <div class="intro-box">
+      <p class="intro-eyebrow">2026 GRUA CAMPUS TOUR</p>
+      <h1>가이드팀 모집에 오신 여러분을 환영합니다!</h1>
+      <p class="intro-text">
+        그동안 GRUA에 보내주신 모든 열정과 사랑에 감사를 전합니다.<br><br>
+        16가지 GRUA 포지션에 맞추어 투어 장소가 배정됩니다.<br><br>
+        <strong>당신이 선택한 GRUA 포지션을 입력해 주세요!</strong>
+      </p>
+      <button id="startBtn" class="primary-btn">입장하기</button>
+    </div>
+  </section>
+
+  <!-- ✅ MAIN PAGE -->
+  <div id="mainPage" class="page hidden">
+    <header class="hero">
+      <p class="eyebrow">GRUA CAMPUS TOUR</p>
+      <h1>16인의 가이드를 찾습니다</h1>
+      <p class="hero-desc">
+        자신의 타입을 입력하고,<br />
+        그 타입과 연결된 건물을 찾아 주세요.
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="card">
+        <h2>1. 타입 입력</h2>
+
+        <div class="form-row">
+          <label for="typeCode">타입 코드</label>
+          <input id="typeCode" type="text" placeholder="예: IFAP" maxlength="4" />
+        </div>
+
+        <button id="typeConfirmBtn" class="primary-btn">타입 확인하기</button>
+
+        <div id="typeInfo" class="type-info hidden">
+          <p><strong>입력한 타입:</strong> <span id="confirmedType"></span></p>
+          <p><strong>안내:</strong> 아래 건물 중 자신의 자리를 찾아 주세요.</p>
+        </div>
+
+        <div id="messageBox" class="message-box"></div>
+      </section>
+
+      <section class="card">
+        <h2>2. 건물 선택</h2>
+        <p class="section-desc">
+          타입 확인 후, 아래 건물 중 하나를 선택해 주세요.
+        </p>
+
+        <div id="buildingGrid" class="building-grid"></div>
+      </section>
+
+      <section id="finalRevealSection" class="card final-reveal hidden">
+        <h2>가이드팀 등록 완료</h2>
+        <p class="final-text">
+          당신의 자리가 확인되었습니다.<br />
+          곰돌이 가이드팀이 당신을 맞이합니다.
+        </p>
+        <img src="./assets/bear-team.png" alt="곰돌이 가이드팀" class="bear-image" />
+      </section>
+    </main>
   </div>
 
-  <div class="card">
-    <h2>건물 선택</h2>
-    <div id="buildings" class="grid"></div>
-  </div>
-
-  <div class="card">
-    <h2>모집 현황</h2>
-    <div class="bar"><div id="fill"></div></div>
-    <p id="count">0 / 16</p>
-  </div>
-
-  <div id="final" class="card hidden">
-    <h2>가이드팀 등록 완료</h2>
-    <img src="./assets/bear-team.png" />
-  </div>
-</div>
-
-<script type="module" src="./assets/app.js"></script>
+  <script src="./assets/app.js"></script>
 </body>
 </html>
