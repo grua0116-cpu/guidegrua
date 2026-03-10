@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- ✅ INTRO PAGE -->
+  <!-- INTRO -->
   <section id="introPage" class="intro">
     <div class="intro-box">
       <p class="intro-eyebrow">2026 GRUA CAMPUS TOUR</p>
@@ -18,18 +18,18 @@
         16가지 GRUA 포지션에 맞추어 투어 장소가 배정됩니다.<br><br>
         <strong>당신이 선택한 GRUA 포지션을 입력해 주세요!</strong>
       </p>
-      <button id="startBtn" class="primary-btn">입장하기</button>
+      <button id="startBtn" class="primary-btn intro-btn">입장하기</button>
     </div>
   </section>
 
-  <!-- ✅ MAIN PAGE -->
+  <!-- MAIN -->
   <div id="mainPage" class="page hidden">
     <header class="hero">
       <p class="eyebrow">GRUA CAMPUS TOUR</p>
       <h1>16인의 가이드를 찾습니다</h1>
       <p class="hero-desc">
-        자신의 타입을 입력하고,<br />
-        그 타입과 연결된 건물을 찾아 주세요.
+        자신의 타입을 입력한 뒤,<br />
+        지도 위에서 그 타입과 연결된 건물을 찾아 주세요.
       </p>
     </header>
 
@@ -46,24 +46,30 @@
 
         <div id="typeInfo" class="type-info hidden">
           <p><strong>입력한 타입:</strong> <span id="confirmedType"></span></p>
-          <p><strong>안내:</strong> 아래 건물 중 자신의 자리를 찾아 주세요.</p>
+          <p><strong>안내:</strong> 아래 지도에서 자신의 건물을 클릭해 주세요.</p>
         </div>
 
         <div id="messageBox" class="message-box"></div>
       </section>
 
       <section class="card">
-        <h2>2. 건물 선택</h2>
+        <h2>2. 지도에서 건물 찾기</h2>
         <p class="section-desc">
-          타입 확인 후, 아래 건물 중 하나를 선택해 주세요.
+          지도 위 반짝이는 지점을 눌러 자신의 자리를 찾아 주세요.
         </p>
 
-        <div id="buildingGrid" class="building-grid"></div>
+        <div class="map-wrap">
+          <img src="./assets/campus-map.png" alt="GRUA 캠퍼스 지도" class="campus-map" />
+          <div id="mapPoints"></div>
+        </div>
       </section>
 
-      <section id="finalRevealSection" class="card final-reveal hidden">
+      <section id="resultCard" class="card result-card hidden">
+        <div class="result-badge">GUIDE TEAM</div>
         <h2>가이드팀 등록 완료</h2>
-        <p class="final-text">
+        <p id="resultTypeText" class="result-type"></p>
+        <p id="resultBuildingText" class="result-building"></p>
+        <p class="result-desc">
           당신의 자리가 확인되었습니다.<br />
           곰돌이 가이드팀이 당신을 맞이합니다.
         </p>
