@@ -8,27 +8,19 @@
 </head>
 <body>
 
-  <!-- INTRO -->
-  <section id="introPage" class="intro">
-    <div class="intro-box">
-      <p class="intro-eyebrow">2026 GRUA CAMPUS TOUR</p>
-      <h1>가이드팀 모집에 오신 여러분을 환영합니다!</h1>
-      <p class="intro-text">
-        그동안 GRUA에 보내주신 모든 열정과 사랑에 감사를 전합니다.<br><br>
-        16가지 GRUA 포지션에 맞추어 투어 장소가 배정됩니다.<br><br>
-        <strong>당신이 선택한 GRUA 포지션을 입력해 주세요!</strong>
-      </p>
-      <button id="startBtn" class="primary-btn intro-btn">입장하기</button>
-    </div>
+  <!-- INTRO IMAGE PAGE -->
+  <section id="introPage" class="intro-image-page">
+    <img src="./assets/intro-image.png" alt="2026 GRUA 캠퍼스 투어 가이드팀 모집" class="intro-image" />
+    <button id="startBtn" class="intro-enter-btn">입장하기</button>
   </section>
 
-  <!-- MAIN -->
+  <!-- MAIN PAGE -->
   <div id="mainPage" class="page hidden">
     <header class="hero">
       <p class="eyebrow">GRUA CAMPUS TOUR</p>
-      <h1>16인의 가이드를 찾습니다</h1>
+      <h1>GRUA 캠퍼스 투어 가이드팀을 찾습니다</h1>
       <p class="hero-desc">
-        자신의 타입을 입력한 뒤,<br />
+        자신의 캠퍼스 포지션을 확인한 뒤,<br />
         지도 위에서 그 타입과 연결된 건물을 찾아 주세요.
       </p>
     </header>
@@ -46,7 +38,7 @@
 
         <div id="typeInfo" class="type-info hidden">
           <p><strong>입력한 타입:</strong> <span id="confirmedType"></span></p>
-          <p><strong>안내:</strong> 아래 지도에서 자신의 건물을 클릭해 주세요.</p>
+          <p><strong>안내:</strong> 지도에서 연결된 건물을 클릭해 주세요.</p>
         </div>
 
         <div id="messageBox" class="message-box"></div>
@@ -55,7 +47,7 @@
       <section class="card">
         <h2>2. 지도에서 건물 찾기</h2>
         <p class="section-desc">
-          당신의 포지션을 이해하고 자신의 자리를 찾아 주세요.
+          지도 위 지점을 눌러 자신의 자리를 찾아 주세요.
         </p>
 
         <div class="map-wrap">
@@ -71,7 +63,8 @@
         <p id="resultBuildingText" class="result-building"></p>
         <p class="result-desc">
           당신의 자리가 확인되었습니다.<br />
-                  </p>
+          이제 당신의 캠퍼스 포지션이 등록됐습니다.
+        </p>
         <img src="./assets/bear-team.png" alt="곰돌이 가이드팀" class="bear-image" />
       </section>
     </main>
