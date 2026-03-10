@@ -110,11 +110,11 @@ function handlePointClick(buildingName, buttonEl) {
 
   buttonEl.classList.add("active-correct");
   completed = true;
-  setMessage("등록이 완료되었습니다. 결과 페이지로 이동합니다.", "success");
+  setMessage("등록이 완료되었습니다. 곰돌이 페이지로 이동합니다.", "success");
 
   setTimeout(() => {
     goToResultPage(currentType, expectedBuilding);
-  }, 500);
+  }, 400);
 }
 
 function renderMapPoints() {
