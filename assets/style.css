@@ -1,166 +1,351 @@
-const TYPE_MAP = {
-  IFAP: "도서관",
-  IFAB: "스카이뷰 라운지",
-  IFLP: "창작 스튜디오",
-  IFLB: "박물관",
-  IEAP: "랩",
-  IEAB: "통제실",
-  IELP: "학생회관",
-  IELB: "시계탑",
-  OFAP: "중앙 광장",
-  OFAB: "다리",
-  OFLP: "교내 방송국",
-  OFLB: "역사관",
-  OEAP: "고해실",
-  OEAB: "도서관2",
-  OELP: "본관",
-  OELB: "추모관"
-};
-
-const MAP_POINTS = [
-  { name: "도서관", x: 27, y: 23 },
-  { name: "스카이뷰 라운지", x: 41, y: 20 },
-  { name: "창작 스튜디오", x: 55, y: 24 },
-  { name: "박물관", x: 69, y: 25 },
-  { name: "랩", x: 22, y: 41 },
-  { name: "통제실", x: 34, y: 44 },
-  { name: "학생회관", x: 48, y: 43 },
-  { name: "시계탑", x: 61, y: 43 },
-  { name: "중앙 광장", x: 45, y: 59 },
-  { name: "다리", x: 59, y: 60 },
-  { name: "교내 방송국", x: 73, y: 46 },
-  { name: "역사관", x: 78, y: 63 },
-  { name: "고해실", x: 26, y: 66 },
-  { name: "도서관2", x: 37, y: 70 },
-  { name: "본관", x: 53, y: 76 },
-  { name: "추모관", x: 68, y: 79 }
-];
-
-const introPage = document.getElementById("introPage");
-const mainPage = document.getElementById("mainPage");
-const introImage = document.getElementById("introImage");
-
-const typeCodeInput = document.getElementById("typeCode");
-const typeConfirmBtn = document.getElementById("typeConfirmBtn");
-const typeInfo = document.getElementById("typeInfo");
-const confirmedType = document.getElementById("confirmedType");
-const messageBox = document.getElementById("messageBox");
-const mapPoints = document.getElementById("mapPoints");
-
-let currentType = null;
-let completed = false;
-
-function setMessage(text, type = "info") {
-  messageBox.textContent = text;
-  messageBox.className = `message-box ${type}`;
+* {
+  box-sizing: border-box;
 }
 
-function normalizeTypeCode(value) {
-  return value.trim().toUpperCase();
+body {
+  margin: 0;
+  font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  background: #f7f4ef;
+  color: #2f2a25;
 }
 
-function resetPointStates() {
-  document.querySelectorAll(".map-point").forEach((el) => {
-    el.classList.remove("active-correct", "active-wrong");
-  });
+.hidden {
+  display: none !important;
 }
 
-function validateType() {
-  const typeCode = normalizeTypeCode(typeCodeInput.value);
+/* INTRO */
+.intro-image-page {
+  min-height: 100vh;
+  position: relative;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
-  if (!typeCode) {
-    setMessage("타입 코드를 입력해 주세요.", "error");
-    return false;
+.intro-image {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+
+.clickable-intro {
+  cursor: pointer;
+}
+
+/* MAIN */
+.page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+  padding: 36px 20px;
+  background: #fffaf3;
+  border: 1px solid #e4d9ca;
+  border-radius: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #8b6f52;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+.hero-desc {
+  margin: 0;
+  line-height: 1.7;
+  color: #5f5348;
+}
+
+.layout {
+  display: grid;
+  gap: 20px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e7ddd1;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(60, 40, 10, 0.04);
+}
+
+.card h2 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.section-desc {
+  margin: 0 0 16px;
+  color: #6a5d52;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.form-row label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-row input {
+  width: 100%;
+  border: 1px solid #d7c9b8;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 16px;
+  background: #fffcf8;
+}
+
+.primary-btn {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-weight: 700;
+  background: #6f4d38;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.type-info {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #faf3e8;
+  border: 1px solid #eadcc8;
+}
+
+.message-box {
+  min-height: 28px;
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.message-box.success {
+  color: #1f6b46;
+}
+
+.message-box.error {
+  color: #a23131;
+}
+
+.message-box.info {
+  color: #6a4d2e;
+}
+
+.map-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid #e3d7c8;
+  background: #f3ecdf;
+}
+
+.campus-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#mapPoints {
+  position: absolute;
+  inset: 0;
+}
+
+.map-point {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(111, 77, 56, 0.92);
+  box-shadow:
+    0 0 0 6px rgba(111, 77, 56, 0.16),
+    0 0 0 12px rgba(111, 77, 56, 0.08);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.map-point::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 999px;
+  background: #fff7ef;
+}
+
+.map-point:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.map-point.active-correct {
+  background: rgba(34, 116, 76, 0.95);
+  box-shadow:
+    0 0 0 8px rgba(34, 116, 76, 0.2),
+    0 0 0 16px rgba(34, 116, 76, 0.1);
+}
+
+.map-point.active-wrong {
+  background: rgba(172, 55, 55, 0.95);
+  box-shadow:
+    0 0 0 8px rgba(172, 55, 55, 0.18),
+    0 0 0 16px rgba(172, 55, 55, 0.08);
+}
+
+.point-label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(47, 42, 37, 0.92);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+
+.map-point:hover .point-label {
+  opacity: 1;
+}
+
+/* RESULT PAGE */
+.result-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.result-screen {
+  width: 100%;
+  max-width: 760px;
+  text-align: center;
+  background: linear-gradient(180deg, #fffaf2, #fff5e9);
+  border: 1px solid #d8bea0;
+  border-radius: 28px;
+  padding: 36px 24px;
+  box-shadow: 0 20px 40px rgba(60, 30, 10, 0.08);
+}
+
+.result-badge {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-weight: 800;
+  color: #7a5a3d;
+  background: #f2e6d6;
+}
+
+.result-screen h1 {
+  margin: 0 0 14px;
+  font-size: 34px;
+}
+
+.result-type {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #5e4735;
+}
+
+.result-building {
+  margin: 0 0 14px;
+  font-size: 16px;
+  color: #7a6758;
+}
+
+.result-desc {
+  line-height: 1.7;
+  color: #5c4f43;
+}
+
+.result-desc.big {
+  font-size: 17px;
+}
+
+.bear-image {
+  display: block;
+  max-width: 100%;
+  width: 480px;
+  margin: 20px auto 0;
+  border-radius: 20px;
+  border: 1px solid #e1d2bf;
+  box-shadow: 0 12px 30px rgba(70, 40, 10, 0.08);
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 22px;
+  color: #6f4d38;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 16px 60px;
   }
 
-  if (!TYPE_MAP[typeCode]) {
-    setMessage("존재하지 않는 타입입니다. 코드를 다시 확인해 주세요.", "error");
-    return false;
+  .hero h1,
+  .result-screen h1 {
+    font-size: 28px;
   }
 
-  currentType = typeCode;
-  completed = false;
-  confirmedType.textContent = currentType;
-  typeInfo.classList.remove("hidden");
-  resetPointStates();
-  setMessage(`타입 ${currentType} 확인 완료. 지도에서 연결된 건물을 선택해 주세요.`, "success");
-  return true;
-}
-
-function goToResultPage(typeCode, buildingName) {
-  const params = new URLSearchParams({
-    type: typeCode,
-    building: buildingName
-  });
-  window.location.href = `./result.html?${params.toString()}`;
-}
-
-function handlePointClick(buildingName, buttonEl) {
-  if (!currentType) {
-    setMessage("먼저 타입 코드를 입력해 주세요.", "error");
-    return;
+  .card,
+  .result-screen {
+    padding: 18px;
   }
 
-  if (completed) return;
-
-  const expectedBuilding = TYPE_MAP[currentType];
-  resetPointStates();
-
-  if (buildingName !== expectedBuilding) {
-    buttonEl.classList.add("active-wrong");
-    setMessage("이곳은 당신의 자리가 아닙니다. 다시 찾아 주세요.", "error");
-    return;
+  .map-point {
+    width: 18px;
+    height: 18px;
   }
 
-  buttonEl.classList.add("active-correct");
-  completed = true;
-  setMessage("등록이 완료되었습니다. 결과 페이지로 이동합니다.", "success");
-
-  setTimeout(() => {
-    goToResultPage(currentType, expectedBuilding);
-  }, 500);
+  .point-label {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
 }
-
-function renderMapPoints() {
-  if (!mapPoints) return;
-
-  mapPoints.innerHTML = "";
-
-  MAP_POINTS.forEach((point) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "map-point";
-    btn.style.left = `${point.x}%`;
-    btn.style.top = `${point.y}%`;
-    btn.setAttribute("aria-label", point.name);
-
-    const label = document.createElement("span");
-    label.className = "point-label";
-    label.textContent = point.name;
-
-    btn.appendChild(label);
-    btn.addEventListener("click", () => handlePointClick(point.name, btn));
-    mapPoints.appendChild(btn);
-  });
-}
-
-if (introImage) {
-  introImage.addEventListener("click", () => {
-    introPage.classList.add("hidden");
-    mainPage.classList.remove("hidden");
-  });
-}
-
-if (typeConfirmBtn) {
-  typeConfirmBtn.addEventListener("click", validateType);
-}
-
-if (typeCodeInput) {
-  typeCodeInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      validateType();
-    }
-  });
-}
-
-renderMapPoints();
