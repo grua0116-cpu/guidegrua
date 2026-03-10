@@ -17,14 +17,6 @@ const TYPE_MAP = {
   OELB: "추모관"
 };
 
-/*
-  x, y는 퍼센트 좌표
-  left: x%
-  top: y%
-
-  아래 값은 시작용이다.
-  네 지도에 맞춰 1~3% 정도씩 미세조정하면 된다.
-*/
 const MAP_POINTS = [
   { name: "도서관", x: 27, y: 23 },
   { name: "스카이뷰 라운지", x: 41, y: 20 },
@@ -42,7 +34,7 @@ const MAP_POINTS = [
   { name: "도서관2", x: 37, y: 70 },
   { name: "본관", x: 53, y: 76 },
   { name: "추모관", x: 68, y: 79 }
-];
+};
 
 const introPage = document.getElementById("introPage");
 const mainPage = document.getElementById("mainPage");
@@ -135,6 +127,8 @@ function handlePointClick(buildingName, buttonEl) {
 }
 
 function renderMapPoints() {
+  if (!mapPoints) return;
+
   mapPoints.innerHTML = "";
 
   MAP_POINTS.forEach((point) => {
@@ -151,22 +145,27 @@ function renderMapPoints() {
 
     btn.appendChild(label);
     btn.addEventListener("click", () => handlePointClick(point.name, btn));
-
     mapPoints.appendChild(btn);
   });
 }
 
-startBtn.addEventListener("click", () => {
-  introPage.classList.add("hidden");
-  mainPage.classList.remove("hidden");
-});
+if (startBtn) {
+  startBtn.addEventListener("click", () => {
+    introPage.classList.add("hidden");
+    mainPage.classList.remove("hidden");
+  });
+}
 
-typeConfirmBtn.addEventListener("click", validateType);
+if (typeConfirmBtn) {
+  typeConfirmBtn.addEventListener("click", validateType);
+}
 
-typeCodeInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    validateType();
-  }
-});
+if (typeCodeInput) {
+  typeCodeInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      validateType();
+    }
+  });
+}
 
 renderMapPoints();
