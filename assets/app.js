@@ -75,3 +75,12 @@ onSnapshot(collection(db,"registrations"),snap=>{
   count.textContent=`${n} / ${TOTAL}`;
   if(n>=TOTAL) final.classList.remove("hidden");
 });
+// Intro → Main 전환
+const introPage = document.getElementById("introPage");
+const mainPage = document.getElementById("mainPage");
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("click", () => {
+  introPage.classList.add("hidden");
+  mainPage.classList.remove("hidden");
+});
