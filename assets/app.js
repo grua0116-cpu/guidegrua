@@ -34,11 +34,11 @@ const MAP_POINTS = [
   { name: "도서관2", x: 37, y: 70 },
   { name: "본관", x: 53, y: 76 },
   { name: "추모관", x: 68, y: 79 }
-};
+];
 
 const introPage = document.getElementById("introPage");
 const mainPage = document.getElementById("mainPage");
-const startBtn = document.getElementById("startBtn");
+const introImage = document.getElementById("introImage");
 
 const typeCodeInput = document.getElementById("typeCode");
 const typeConfirmBtn = document.getElementById("typeConfirmBtn");
@@ -46,9 +46,6 @@ const typeInfo = document.getElementById("typeInfo");
 const confirmedType = document.getElementById("confirmedType");
 const messageBox = document.getElementById("messageBox");
 const mapPoints = document.getElementById("mapPoints");
-const resultCard = document.getElementById("resultCard");
-const resultTypeText = document.getElementById("resultTypeText");
-const resultBuildingText = document.getElementById("resultBuildingText");
 
 let currentType = null;
 let completed = false;
@@ -68,17 +65,6 @@ function resetPointStates() {
   });
 }
 
-function showResultCard(typeCode, buildingName) {
-  resultTypeText.textContent = `${typeCode} 포지션 확인 완료`;
-  resultBuildingText.textContent = `배정 장소 : ${buildingName}`;
-  resultCard.classList.remove("hidden");
-  resultCard.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function hideResultCard() {
-  resultCard.classList.add("hidden");
-}
-
 function validateType() {
   const typeCode = normalizeTypeCode(typeCodeInput.value);
 
@@ -96,10 +82,17 @@ function validateType() {
   completed = false;
   confirmedType.textContent = currentType;
   typeInfo.classList.remove("hidden");
-  hideResultCard();
   resetPointStates();
   setMessage(`타입 ${currentType} 확인 완료. 지도에서 연결된 건물을 선택해 주세요.`, "success");
   return true;
+}
+
+function goToResultPage(typeCode, buildingName) {
+  const params = new URLSearchParams({
+    type: typeCode,
+    building: buildingName
+  });
+  window.location.href = `./result.html?${params.toString()}`;
 }
 
 function handlePointClick(buildingName, buttonEl) {
@@ -115,15 +108,17 @@ function handlePointClick(buildingName, buttonEl) {
 
   if (buildingName !== expectedBuilding) {
     buttonEl.classList.add("active-wrong");
-    hideResultCard();
     setMessage("이곳은 당신의 자리가 아닙니다. 다시 찾아 주세요.", "error");
     return;
   }
 
   buttonEl.classList.add("active-correct");
   completed = true;
-  setMessage("등록이 완료되었습니다.", "success");
-  showResultCard(currentType, expectedBuilding);
+  setMessage("등록이 완료되었습니다. 결과 페이지로 이동합니다.", "success");
+
+  setTimeout(() => {
+    goToResultPage(currentType, expectedBuilding);
+  }, 500);
 }
 
 function renderMapPoints() {
@@ -149,8 +144,8 @@ function renderMapPoints() {
   });
 }
 
-if (startBtn) {
-  startBtn.addEventListener("click", () => {
+if (introImage) {
+  introImage.addEventListener("click", () => {
     introPage.classList.add("hidden");
     mainPage.classList.remove("hidden");
   });
