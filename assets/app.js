@@ -36,10 +36,6 @@ const MAP_POINTS = [
   { name: "추모관", x: 68, y: 79 }
 ];
 
-const introPage = document.getElementById("introPage");
-const mainPage = document.getElementById("mainPage");
-const introImage = document.getElementById("introImage");
-
 const typeCodeInput = document.getElementById("typeCode");
 const typeConfirmBtn = document.getElementById("typeConfirmBtn");
 const typeInfo = document.getElementById("typeInfo");
@@ -141,13 +137,6 @@ function renderMapPoints() {
     btn.appendChild(label);
     btn.addEventListener("click", () => handlePointClick(point.name, btn));
     mapPoints.appendChild(btn);
-  });
-}
-
-if (introImage) {
-  introImage.addEventListener("click", () => {
-    introPage.classList.add("hidden");
-    mainPage.classList.remove("hidden");
   });
 }
 
