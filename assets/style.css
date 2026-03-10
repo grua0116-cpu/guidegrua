@@ -112,14 +112,6 @@ body {
   opacity: 0.96;
 }
 
-.type-info {
-  margin-top: 14px;
-  padding: 14px;
-  border-radius: 16px;
-  background: #faf3e8;
-  border: 1px solid #eadcc8;
-}
-
 .message-box {
   min-height: 28px;
   margin-top: 14px;
@@ -139,13 +131,7 @@ body {
   color: #6a4d2e;
 }
 
-.hidden {
-  display: none !important;
-}
-
-/* 지도 영역 */
 .map-wrap {
-  position: relative;
   width: 100%;
   max-width: 980px;
   margin: 0 auto;
@@ -159,74 +145,6 @@ body {
   display: block;
   width: 100%;
   height: auto;
-}
-
-#mapPoints {
-  position: absolute;
-  inset: 0;
-}
-
-/* 지도 위 클릭 노드 */
-.map-point {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border: none;
-  border-radius: 999px;
-  background: rgba(111, 77, 56, 0.94);
-  box-shadow:
-    0 0 0 6px rgba(111, 77, 56, 0.16),
-    0 0 0 12px rgba(111, 77, 56, 0.08);
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-}
-
-.map-point::after {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border-radius: 999px;
-  background: #fff7ef;
-}
-
-.map-point:hover {
-  transform: translate(-50%, -50%) scale(1.08);
-}
-
-.map-point.active-correct {
-  background: rgba(34, 116, 76, 0.96);
-  box-shadow:
-    0 0 0 8px rgba(34, 116, 76, 0.22),
-    0 0 0 16px rgba(34, 116, 76, 0.12);
-}
-
-.map-point.active-wrong {
-  background: rgba(172, 55, 55, 0.96);
-  box-shadow:
-    0 0 0 8px rgba(172, 55, 55, 0.2),
-    0 0 0 16px rgba(172, 55, 55, 0.1);
-}
-
-.point-label {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 10px);
-  transform: translateX(-50%);
-  white-space: nowrap;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(47, 42, 37, 0.92);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.18s ease;
-}
-
-.map-point:hover .point-label {
-  opacity: 1;
 }
 
 /* 결과 페이지 */
@@ -308,7 +226,6 @@ body {
   text-decoration: underline;
 }
 
-/* 모바일 */
 @media (max-width: 768px) {
   .page {
     padding: 24px 16px 60px;
@@ -326,16 +243,6 @@ body {
   .card,
   .result-screen {
     padding: 18px;
-  }
-
-  .map-point {
-    width: 18px;
-    height: 18px;
-  }
-
-  .point-label {
-    font-size: 11px;
-    padding: 5px 8px;
   }
 
   .bear-image {
