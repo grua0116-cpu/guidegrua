@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GRUA 캠퍼스 투어 가이드팀 모집</title>
+<link rel="stylesheet" href="./assets/style.css" />
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import {
+  getFirestore, doc, setDoc, getDoc,
+  collection, onSnapshot, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "여기입력",
+  authDomain: "여기입력",
+  projectId: "여기입력",
+  storageBucket: "여기입력",
+  messagingSenderId: "여기입력",
+  appId: "여기입력"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.db = db;
+window.fns = { doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp };
+</script>
+</head>
+
+<body>
+<div class="wrap">
+  <h1>캠퍼스 투어 가이드팀 모집</h1>
+  <p>타입을 입력하고 연결된 건물을 찾아주세요.<br>16명이 모두 모이면 가이드팀이 완성됩니다.</p>
+
+  <div class="card">
+    <input id="nick" placeholder="닉네임" />
+    <input id="type" placeholder="타입코드 (예: IFAP)" maxlength="4"/>
+    <button id="confirm">타입 확인</button>
+    <div id="msg"></div>
+  </div>
+
+  <div class="card">
+    <h2>건물 선택</h2>
+    <div id="buildings" class="grid"></div>
+  </div>
+
+  <div class="card">
+    <h2>모집 현황</h2>
+    <div class="bar"><div id="fill"></div></div>
+    <p id="count">0 / 16</p>
+  </div>
+
+  <div id="final" class="card hidden">
+    <h2>가이드팀 등록 완료</h2>
+    <img src="./assets/bear-team.png" />
+  </div>
+</div>
+
+<script type="module" src="./assets/app.js"></script>
+</body>
+</html>
