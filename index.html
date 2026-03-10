@@ -1,67 +1,166 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GRUA 캠퍼스 투어 가이드팀 모집</title>
-  <link rel="stylesheet" href="./assets/style.css" />
-</head>
-<body>
+const TYPE_MAP = {
+  IFAP: "도서관",
+  IFAB: "스카이뷰 라운지",
+  IFLP: "창작 스튜디오",
+  IFLB: "박물관",
+  IEAP: "랩",
+  IEAB: "통제실",
+  IELP: "학생회관",
+  IELB: "시계탑",
+  OFAP: "중앙 광장",
+  OFAB: "다리",
+  OFLP: "교내 방송국",
+  OFLB: "역사관",
+  OEAP: "고해실",
+  OEAB: "도서관2",
+  OELP: "본관",
+  OELB: "추모관"
+};
 
-  <!-- 인트로 -->
-  <section id="introPage" class="intro-image-page">
-    <img
-      id="introImage"
-      src="./assets/intro-image.png"
-      alt="2026 GRUA 캠퍼스 투어 가이드팀 모집"
-      class="intro-image clickable-intro"
-    />
-  </section>
+const MAP_POINTS = [
+  { name: "도서관", x: 27, y: 23 },
+  { name: "스카이뷰 라운지", x: 41, y: 20 },
+  { name: "창작 스튜디오", x: 55, y: 24 },
+  { name: "박물관", x: 69, y: 25 },
+  { name: "랩", x: 22, y: 41 },
+  { name: "통제실", x: 34, y: 44 },
+  { name: "학생회관", x: 48, y: 43 },
+  { name: "시계탑", x: 61, y: 43 },
+  { name: "중앙 광장", x: 45, y: 59 },
+  { name: "다리", x: 59, y: 60 },
+  { name: "교내 방송국", x: 73, y: 46 },
+  { name: "역사관", x: 78, y: 63 },
+  { name: "고해실", x: 26, y: 66 },
+  { name: "도서관2", x: 37, y: 70 },
+  { name: "본관", x: 53, y: 76 },
+  { name: "추모관", x: 68, y: 79 }
+];
 
-  <!-- 본문 -->
-  <div id="mainPage" class="page hidden">
-    <header class="hero">
-      <p class="eyebrow">GRUA CAMPUS TOUR</p>
-      <h1>16인의 가이드를 찾습니다</h1>
-      <p class="hero-desc">
-        자신의 캠퍼스 포지션을 확인한 뒤,<br />
-        지도 위에서 그 타입과 연결된 건물을 찾아 주세요.
-      </p>
-    </header>
+const introPage = document.getElementById("introPage");
+const mainPage = document.getElementById("mainPage");
+const introImage = document.getElementById("introImage");
 
-    <main class="layout">
-      <section class="card">
-        <h2>1. 타입 입력</h2>
+const typeCodeInput = document.getElementById("typeCode");
+const typeConfirmBtn = document.getElementById("typeConfirmBtn");
+const typeInfo = document.getElementById("typeInfo");
+const confirmedType = document.getElementById("confirmedType");
+const messageBox = document.getElementById("messageBox");
+const mapPoints = document.getElementById("mapPoints");
 
-        <div class="form-row">
-          <label for="typeCode">타입 코드</label>
-          <input id="typeCode" type="text" placeholder="예: IFAP" maxlength="4" />
-        </div>
+let currentType = null;
+let completed = false;
 
-        <button id="typeConfirmBtn" class="primary-btn">타입 확인하기</button>
+function setMessage(text, type = "info") {
+  messageBox.textContent = text;
+  messageBox.className = `message-box ${type}`;
+}
 
-        <div id="typeInfo" class="type-info hidden">
-          <p><strong>입력한 타입:</strong> <span id="confirmedType"></span></p>
-          <p><strong>안내:</strong> 지도에서 연결된 건물을 클릭해 주세요.</p>
-        </div>
+function normalizeTypeCode(value) {
+  return value.trim().toUpperCase();
+}
 
-        <div id="messageBox" class="message-box"></div>
-      </section>
+function resetPointStates() {
+  document.querySelectorAll(".map-point").forEach((el) => {
+    el.classList.remove("active-correct", "active-wrong");
+  });
+}
 
-      <section class="card">
-        <h2>2. 지도에서 건물 찾기</h2>
-        <p class="section-desc">
-          지도 위 지점을 눌러 자신의 자리를 찾아 주세요.
-        </p>
+function validateType() {
+  const typeCode = normalizeTypeCode(typeCodeInput.value);
 
-        <div class="map-wrap">
-          <img src="./assets/campus-map.png" alt="GRUA 캠퍼스 지도" class="campus-map" />
-          <div id="mapPoints"></div>
-        </div>
-      </section>
-    </main>
-  </div>
+  if (!typeCode) {
+    setMessage("타입 코드를 입력해 주세요.", "error");
+    return false;
+  }
 
-  <script src="./assets/app.js"></script>
-</body>
-</html>
+  if (!TYPE_MAP[typeCode]) {
+    setMessage("존재하지 않는 타입입니다. 코드를 다시 확인해 주세요.", "error");
+    return false;
+  }
+
+  currentType = typeCode;
+  completed = false;
+  confirmedType.textContent = currentType;
+  typeInfo.classList.remove("hidden");
+  resetPointStates();
+  setMessage(`타입 ${currentType} 확인 완료. 지도에서 연결된 건물을 선택해 주세요.`, "success");
+  return true;
+}
+
+function goToResultPage(typeCode, buildingName) {
+  const params = new URLSearchParams({
+    type: typeCode,
+    building: buildingName
+  });
+  window.location.href = `./result.html?${params.toString()}`;
+}
+
+function handlePointClick(buildingName, buttonEl) {
+  if (!currentType) {
+    setMessage("먼저 타입 코드를 입력해 주세요.", "error");
+    return;
+  }
+
+  if (completed) return;
+
+  const expectedBuilding = TYPE_MAP[currentType];
+  resetPointStates();
+
+  if (buildingName !== expectedBuilding) {
+    buttonEl.classList.add("active-wrong");
+    setMessage("이곳은 당신의 자리가 아닙니다. 다시 찾아 주세요.", "error");
+    return;
+  }
+
+  buttonEl.classList.add("active-correct");
+  completed = true;
+  setMessage("등록이 완료되었습니다. 결과 페이지로 이동합니다.", "success");
+
+  setTimeout(() => {
+    goToResultPage(currentType, expectedBuilding);
+  }, 500);
+}
+
+function renderMapPoints() {
+  if (!mapPoints) return;
+
+  mapPoints.innerHTML = "";
+
+  MAP_POINTS.forEach((point) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "map-point";
+    btn.style.left = `${point.x}%`;
+    btn.style.top = `${point.y}%`;
+    btn.setAttribute("aria-label", point.name);
+
+    const label = document.createElement("span");
+    label.className = "point-label";
+    label.textContent = point.name;
+
+    btn.appendChild(label);
+    btn.addEventListener("click", () => handlePointClick(point.name, btn));
+    mapPoints.appendChild(btn);
+  });
+}
+
+if (introImage) {
+  introImage.addEventListener("click", () => {
+    introPage.classList.add("hidden");
+    mainPage.classList.remove("hidden");
+  });
+}
+
+if (typeConfirmBtn) {
+  typeConfirmBtn.addEventListener("click", validateType);
+}
+
+if (typeCodeInput) {
+  typeCodeInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      validateType();
+    }
+  });
+}
+
+renderMapPoints();
