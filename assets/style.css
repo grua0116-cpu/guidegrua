@@ -350,3 +350,6 @@ body {
     bottom: 5vh;
   }
 }
+.clickable-intro {
+  cursor: pointer;
+}
